@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+########################################################
+# service containers
+########################################################
+    simple-app-server:
+        image: simple-app-server
+        container_name: simple-app-server
+        build:
+            context: ./server/
+        volumes:
+            - ./server/src:/var/www/server
+        ports:
+            - 8082:80
+########################################################
+# containers for development
+########################################################
+    simple-app-db:
+        image: mysql
+        container_name: simple-app-db
+        environment:
+            - MYSQL_ROOT_PASSWORD=123456
+            - MYSQL_DATABASE=laravel
+            - MYSQL_USER=laravel_user
+            - MYSQL_PASSWORD=123456
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        volumes:
+            - ./db/data:/var/lib/mysql
+        ports:
+            - 3306:3306
+    simple-app-phpmyadmin:
+        container_name: simple-app-phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOSTS=simple-app-db
+            - PMA_USER=root
+            - PMA_PASSWORD=123456
+        expose:
+            - 80
+    simple-app-dev-proxy:
+        image: simple-app-dev-proxy
+        container_name: simple-app-dev-proxy-dev-proxy
+        build:
+            context: ./proxy/
+        ports:
+            - 8080:80
