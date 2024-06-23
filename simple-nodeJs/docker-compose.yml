@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+    simple-nodejs:
+        image: simple-nodejs
+        container_name: simple-nodejs
+        build:
+            context: ./
+        volumes:
+            - ./:/var/www/nodejs
+        ports:
+            - 8083:3000
