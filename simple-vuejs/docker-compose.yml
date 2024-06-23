@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+    simple-vuejs:
+        image: simple-vuejs
+        container_name: simple-vuejs
+        build:
+            context: ./
+        volumes:
+            - ./:/var/www/vuejs
+        ports:
+            - 8084:8080
+        working_dir: /var/www/vuejs
