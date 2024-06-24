@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+########################################################
+# service containers
+########################################################
+    simple-nest-app:
+        image: simple-nest-app
+        container_name: simple-nest-app
+        build:
+            context: ./
+        ports:
+            - 8000:3000
+########################################################
+# containers for development
+########################################################
+    postgres-db:
+        image: postgres
+        container_name: postgres-db
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=123456
+            - POSTGRES_DB=nest
+        volumes:
+            - ./db:/var/lib/postgresql
+        ports:
+            - 5432:5432
